@@ -1,38 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactTable from 'react-table';
+import moment from 'moment';
+ 
+const Trainings = () => {
 
-class Traininglist extends React.Component {
+    const [training, setTraining] = useState([]);
 
-    constructor(props) {
-        super(props);
-        this.state = { trainings: []};
-    }
+    useEffect(() => {
+        fetchTrainings();
+    }, []);
 
-    componentDidMount() {
+    const fetchTrainings = () => {
         fetch('https://customerrest.herokuapp.com/api/trainings')
         .then((response) => response.json())
         .then((responseData) => {
-            this.setState({ trainings: responseData.content});
+            setTraining(responseData.content);
         })
-    }
+    };
 
-    render(){
-        const trainingResult = this.state.trainings.map((training) =>
-        <tr key={training.id}>
-            <td>{training.activity}</td>
-            <td>{training.date}</td>
-            <td>{training.duration}</td>
-        </tr>
-        );
+    const columns = [
+        {
+            Header: 'Activity',
+            accessor: 'activity'
+        },
+        {
+            Header: 'Duration',
+            accessor: 'duration'
+        },
+        {
+            Header: 'Date',
+            accessor: 'date',
+            Cell: row => moment(row.value).format('dddd, DD/MM/YY, hh:mm a')
+        },
+        {
+            Header: '',
+            accessor: 'date',
+            Cell: row => moment(row.value).endOf('day').fromNow()
+        }
+        //treenin poisto tähän
+    ]
+
+   
         return(
             <div>
-                <table>
-                    <tbody>
-                        {trainingResult}
-                    </tbody>
-                </table>
+                <ReactTable data={training} columns={columns} filterable={true} sortable={true} />
             </div>
+            //treenin lisäys reacttable ennen/jälkeen
         );
     }
 
-}
-export default Traininglist;
+export default Trainings;
