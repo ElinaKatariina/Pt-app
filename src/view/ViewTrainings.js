@@ -1,13 +1,13 @@
 import React from 'react';
 import { Component } from "react";
-import Customerlist from "../components/Customers";
+import Traininglist from "../components/Trainings";
 
-export default class ViewCustomers extends Component {
+export default class ViewTrainings extends Component {
 
     render() {
         return(
             <div>
-                <Customerlist />
+                <Traininglist />
             </div>
         );
     }

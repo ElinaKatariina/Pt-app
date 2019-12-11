@@ -1,39 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-class Customerlist extends React.Component {
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 
-    constructor(props) {
-        super(props);
-        this.state = { customer: []};
-    }
+const CustomerList = () => {
 
-    //haetaan asiakas tiedot json
-    fetchCustomer = () => {
+    const [customer, setCustomer] = useState([]);
+
+    useEffect(() => {
+        fetchCustomers();
+    }, []);
+
+    const fetchCustomers = () => {
         fetch('https://customerrest.herokuapp.com/api/customers')
         .then((response) => response.json())
         .then((responseData) => {
-            this.setState({ customer: responseData.content});
+             setCustomer(responseData.content);
         })
     }
 
-    render(){
-        const customerResult = this.state.customer.map((customer) =>
-        <tr key={customer.id}>
-            <td>{customer.firstname}{customer.lastname}</td>
-            <td>{customer.email}</td>
-            <td>{customer.phone}</td>
-        </tr>
-        );
-        return(
-            <div>
-                <table>
-                    <tbody>
-                        {customerResult}
-                    </tbody>
-                </table>
-            </div>
-        );
-    }
+    const columns = [
+        {
+            Header: 'Lastname',
+            accessor: 'firstname'
+        },
+        {
+            Header: 'Firstname',
+            accessor: 'firstname'
+        }
+    ];
 
-}
-export default Customerlist;
+    return (
+        <div>
+            <ReactTable data={customer} columns={columns} filterable={true} sortable={true}/>
+        </div>
+    );
+
+};
+
+
+export default CustomerList;
