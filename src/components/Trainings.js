@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactTable from 'react-table';
 import moment from 'moment';
+import DeleteTraining from './DeleteTraining';
  
 const Trainings = () => {
 
@@ -16,6 +17,13 @@ const Trainings = () => {
         .then((responseData) => {
             setTraining(responseData.content);
         })
+    };
+
+    const deleteTraining = (link) => {
+        fetch(link, {
+            method: 'DELETE'
+        })
+        .then(response => fetchTrainings())
     };
 
     const columns = [
@@ -35,9 +43,18 @@ const Trainings = () => {
         {
             Header: '',
             accessor: 'date',
-            Cell: row => moment(row.value).endOf('day').fromNow()
-        }
+            Cell: row => moment(row.value).endOf('day').fromNow(),
+            filterable: false,
+            sortable: false
+        },
         //treenin poisto tähän
+        {
+            accessor: 'id',
+            Cell: row => <DeleteTraining deleteTraining={deleteTraining} id={row.value} />,
+            width: 110,
+            filterable: false,
+            sortable: false
+        }
     ]
 
    
