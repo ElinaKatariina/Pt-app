@@ -9,6 +9,7 @@ import {
 import { Component } from 'react';
 import ViewTrainings from '../src/view/ViewTrainings';
 import CustomerTable from '../src/view/ViewCustomers';
+import Calendar from './components/TrCalendar';
 
 
 class App extends Component { 
@@ -23,7 +24,11 @@ class App extends Component {
         <Navigator />
           <Switch>
             <Route path="/customers" component={CustomerTable} />
+
             <Route path="/trainings" component={ViewTrainings} />
+
+            <Route path="/calendar" component={Calendar} />
+
             <Route render={() => <h1>Page not found</h1>} />
           </Switch>
       </div>
