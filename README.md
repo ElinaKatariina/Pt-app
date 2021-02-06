@@ -1,3 +1,8 @@
+# Personal Trainer App
+
+## School assignment
+Application for personal trainer service. List for customers, trainings and calendar.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
